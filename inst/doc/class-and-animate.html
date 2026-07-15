@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>CSS class hooks and animation</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">CSS class hooks and animation</h1>
+
+
+
+<p>Two rpic extensions delegate presentation to the <em>host
+document</em> that embeds the SVG: <code>class</code> attaches CSS class
+names to shapes, and <code>animate</code> emits a timing manifest a
+player can drive. Neither changes rpic’s own rendering — classic output
+stays byte-identical — but together they make diagrams that respond to
+the page they live in.</p>
+<div id="class-css-hooks-on-shapes" class="section level2">
+<h2><code>class</code>: CSS hooks on shapes</h2>
+<p><code>class</code> has two forms writing to the same hook — inline at
+creation, and a statement form that reuses pic’s object references
+(labels, <code>last line</code>, <code>2nd box</code>), which also
+reaches shapes drawn inside macros:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(rpic)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>svg <span class="ot">&lt;-</span> <span class="fu">rpic_svg</span>(<span class="st">&#39;</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="st">boxht = 0.4; boxwid = 0.9</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="st">box class &quot;service&quot; &quot;api&quot;</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="st">arrow</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="st">box class &quot;service hot&quot; &quot;billing&quot;</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="st">arrow</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="st">box class &quot;storage&quot; &quot;database&quot;</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="st">class last arrow &quot;dataflow&quot;</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="st">&#39;</span>)</span></code></pre></div>
+<p>Each class lands on the shape’s SVG group
+(<code>&lt;g id=&quot;sN&quot; class=&quot;…&quot;&gt;</code>). The names are validated
+(<code>[A-Za-z_][A-Za-z0-9_-]*</code> only), so there is no
+attribute-injection surface.</p>
+<p>Styling happens in the host page. This very vignette embeds the SVG
+<strong>inline</strong> below and styles it with a
+<code>&lt;style&gt;</code> block — the “billing” box is hot, services
+get a blue border, and the last arrow is dashed. That is live CSS, not
+something rpic drew:</p>
+<style>
+.rpic-demo g.service rect { stroke: #2563eb; stroke-width: 1.6; }
+.rpic-demo g.hot rect { fill: #fef2f2; stroke: #dc2626; }
+.rpic-demo g.hot text { fill: #dc2626; }
+.rpic-demo g.storage rect { fill: #ecfdf5; stroke: #059669; }
+.rpic-demo g.dataflow * { stroke-dasharray: 4 3; }
+</style>
+<div class="rpic-demo">
+<svg xmlns="http://www.w3.org/2000/svg" width="358.4" height="41.6" viewBox="0 0 358.4 41.6" font-family="sans-serif" font-size="14.666667" fill="none">
+<g id="s0" class="service">
+<rect x="1.066667" y="0.533333" width="86.4" height="38.4" fill="none" stroke="black" stroke-width="1.066667" />
+<text font-size="11pt" stroke-width="0.2pt" fill="black" x="44.266667" y="24.573333" text-anchor="middle">api</text>
+</g> <g id="s1">
+<line x1="87.466667" y1="19.733333" x2="133.267677" y2="19.733333" stroke="black" stroke-width="1.066667"></line>
+<polygon stroke-width="0" points="125.866667,17.333333 135.466667,19.733333 125.866667,22.133333" fill="black"></polygon>
+</g> <g id="s2" class="service hot">
+<rect x="135.466667" y="0.533333" width="86.4" height="38.4" fill="none" stroke="black" stroke-width="1.066667" />
+<text font-size="11pt" stroke-width="0.2pt" fill="black" x="178.666667" y="24.573333" text-anchor="middle">billing</text>
+</g> <g id="s3" class="dataflow">
+<line x1="221.866667" y1="19.733333" x2="267.667677" y2="19.733333" stroke="black" stroke-width="1.066667"></line>
+<polygon stroke-width="0" points="260.266667,17.333333 269.866667,19.733333 260.266667,22.133333" fill="black"></polygon>
+</g> <g id="s4" class="storage">
+<rect x="269.866667" y="0.533333" width="86.4" height="38.4" fill="none" stroke="black" stroke-width="1.066667" />
+<text font-size="11pt" stroke-width="0.2pt" fill="black" x="313.066667" y="24.573333" text-anchor="middle">database</text>
+</g>
+</svg>
+</div>
+<p>Note the delegation contract: CSS only reaches
+<strong>inline-embedded</strong> SVG. An
+<code>&lt;img src=&quot;…svg&quot;&gt;</code> reference isolates the document, and
+raster (PNG/PDF) output ignores classes entirely — there, the diagram
+renders exactly as if no class existed.</p>
+</div>
+<div id="animate-a-timing-manifest" class="section level2">
+<h2><code>animate</code>: a timing manifest</h2>
+<p><code>animate</code> schedules an effect (<code>draw</code>,
+<code>fade</code>, <code>pop</code>) per shape, again without touching
+the static rendering:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>bundle <span class="ot">&lt;-</span> <span class="fu">rpic_manifest</span>(<span class="st">&#39;</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="st">boxht = 0.35; boxwid = 0.8</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="st">A: box &quot;build&quot;</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="st">arrow</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="st">box &quot;test&quot;</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="st">arrow</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="st">box &quot;ship&quot;</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="st">animate A with &quot;pop&quot;</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="st">animate 2nd box with &quot;fade&quot;</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="st">animate 3rd box with &quot;draw&quot; for 0.8</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="st">&#39;</span>)</span></code></pre></div>
+<p>The drawing itself is the ordinary static SVG:</p>
+<div class="float">
+<img role="img" aria-label="three boxes labelled build, test and ship connected by arrows" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMjkuNiIgaGVpZ2h0PSIzNi44IiB2aWV3Qm94PSIwIDAgMzI5LjYgMzYuOCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQuNjY2NjY3IiBmaWxsPSJub25lIj4KPGcgaWQ9InMwIj4KPHJlY3QgeD0iMS4wNjY2NjciIHk9IjAuNTMzMzMzIiB3aWR0aD0iNzYuOCIgaGVpZ2h0PSIzMy42IiBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjEuMDY2NjY3Ii8+Cjx0ZXh0IGZvbnQtc2l6ZT0iMTFwdCIgc3Ryb2tlLXdpZHRoPSIwLjJwdCIgZmlsbD0iYmxhY2siIHg9IjM5LjQ2NjY2NyIgeT0iMjIuMTczMzMzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5idWlsZDwvdGV4dD4KPC9nPgo8ZyBpZD0iczEiPgo8bGluZSB4MT0iNzcuODY2NjY3IiB5MT0iMTcuMzMzMzMzIiB4Mj0iMTIzLjY2NzY3NyIgeTI9IjE3LjMzMzMzMyIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIxLjA2NjY2NyIvPgo8cG9seWdvbiBzdHJva2Utd2lkdGg9IjAiIHBvaW50cz0iMTE2LjI2NjY2NywxNC45MzMzMzMgMTI1Ljg2NjY2NywxNy4zMzMzMzMgMTE2LjI2NjY2NywxOS43MzMzMzMiIGZpbGw9ImJsYWNrIi8+CjwvZz4KPGcgaWQ9InMyIj4KPHJlY3QgeD0iMTI1Ljg2NjY2NyIgeT0iMC41MzMzMzMiIHdpZHRoPSI3Ni44IiBoZWlnaHQ9IjMzLjYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMS4wNjY2NjciLz4KPHRleHQgZm9udC1zaXplPSIxMXB0IiBzdHJva2Utd2lkdGg9IjAuMnB0IiBmaWxsPSJibGFjayIgeD0iMTY0LjI2NjY2NyIgeT0iMjIuMTczMzMzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj50ZXN0PC90ZXh0Pgo8L2c+CjxnIGlkPSJzMyI+CjxsaW5lIHgxPSIyMDIuNjY2NjY3IiB5MT0iMTcuMzMzMzMzIiB4Mj0iMjQ4LjQ2NzY3NyIgeTI9IjE3LjMzMzMzMyIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIxLjA2NjY2NyIvPgo8cG9seWdvbiBzdHJva2Utd2lkdGg9IjAiIHBvaW50cz0iMjQxLjA2NjY2NywxNC45MzMzMzMgMjUwLjY2NjY2NywxNy4zMzMzMzMgMjQxLjA2NjY2NywxOS43MzMzMzMiIGZpbGw9ImJsYWNrIi8+CjwvZz4KPGcgaWQ9InM0Ij4KPHJlY3QgeD0iMjUwLjY2NjY2NyIgeT0iMC41MzMzMzMiIHdpZHRoPSI3Ni44IiBoZWlnaHQ9IjMzLjYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMS4wNjY2NjciLz4KPHRleHQgZm9udC1zaXplPSIxMXB0IiBzdHJva2Utd2lkdGg9IjAuMnB0IiBmaWxsPSJibGFjayIgeD0iMjg5LjA2NjY2NyIgeT0iMjIuMTczMzMzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5zaGlwPC90ZXh0Pgo8L2c+Cjwvc3ZnPgoK" alt="three boxes labelled build, test and ship connected by arrows" />
+<div class="figcaption">three boxes labelled build, test and ship
+connected by arrows</div>
+</div>
+<p>and the bundle carries an <code>animations</code> array — shape ids
+(the same stable <code>s&lt;N&gt;</code> ids the class hooks ride on),
+effect names and a resolved timeline:</p>
+<pre><code>&quot;animations&quot;:[{&quot;id&quot;:&quot;s0&quot;,&quot;effect&quot;:&quot;pop&quot;,&quot;start&quot;:0,&quot;duration&quot;:0.6},
+ {&quot;id&quot;:&quot;s2&quot;,&quot;effect&quot;:&quot;fade&quot;,&quot;start&quot;:0.6,&quot;duration&quot;:0.6},
+ {&quot;id&quot;:&quot;s4&quot;,&quot;effect&quot;:&quot;draw&quot;,&quot;start&quot;:1.2,&quot;duration&quot;:0.8}]</code></pre>
+<p>Playing it is the host’s job. In the browser, the <a href="https://www.npmjs.com/package/@strategicprojects/rpic"><code>@strategicprojects/rpic</code></a>
+npm package ships a GSAP player:
+<code>animate(stage, animations, gsap)</code> builds the timeline
+(<code>draw</code> traces strokes, <code>pop</code> scales in,
+<code>fade</code> fades). The <a href="https://rpic.dev/docs/extensions/animate/">animate extension
+page</a> shows it running live.</p>
+<p>Unknown effect names are accepted but reported: the bundle’s
+<code>warnings</code> array flags them
+(<code>unknown_animation_effect</code>, with the supported list), the
+same structured-diagnostic shape used by compile errors.</p>
+</div>
+<div id="both-layers-together" class="section level2">
+<h2>Both layers together</h2>
+<p>Class hooks and animation target the same shape groups, so a diagram
+can be styled by the page <em>and</em> animated by the player at once —
+the classes ride on <code>&lt;g id=&quot;sN&quot; class=&quot;…&quot;&gt;</code> while the
+manifest addresses <code>sN</code>. Everything stays a plain, portable
+SVG for any consumer that ignores them.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

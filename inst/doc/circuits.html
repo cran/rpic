@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Circuit diagrams</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Circuit diagrams</h1>
+
+
+
+<p>rpic ships a native library of <strong>79 circuit elements</strong> —
+a from-scratch re-imagining of J. D. Aplevich’s celebrated
+<em>circuit_macros</em>, written in pure pic (no m4). Load it with
+<code>circuits = TRUE</code>, or from inside the source with
+<code>copy &quot;circuits&quot;</code>; both are equivalent:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(rpic)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">rpic_svg</span>(<span class="st">&#39;A:(0,0); B:(2,0)</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="st">resistor(A,B)&#39;</span>, <span class="at">circuits =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="fu">rpic_svg</span>(<span class="st">&#39;copy &quot;circuits&quot;</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="st">A:(0,0); B:(2,0)</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="st">resistor(A,B)&#39;</span>)</span></code></pre></div>
+<p>All figures below were pre-rendered with the code shown.</p>
+<div id="two-terminal-elements" class="section level2">
+<h2>Two-terminal elements</h2>
+<p><code>resistor</code>, <code>capacitor</code>, <code>inductor</code>,
+<code>battery</code>, <code>diode</code>, <code>led</code>,
+<code>fuse</code>, sources, meters… — each draws between two named
+points, connecting wire included. A classic RLC loop:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">rpic_svg</span>(<span class="st">&#39;</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="st">SW:(0,0); NW:(0,1.2); NE:(2.4,1.2); SE:(2.4,0)</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="st">battery(SW,NW); resistor(NW,NE); capacitor(NE,SE); inductor(SE,SW)</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="st">dot at NW; dot at NE; dot at SE; dot at SW</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="st">&#39;</span>, <span class="at">circuits =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="float">
+<img role="img" aria-label="a rectangular circuit loop: battery on the left, resistor on top, capacitor on the right, inductor on the bottom, with junction dots" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNjEuNDQiIGhlaWdodD0iMTM2LjY0IiB2aWV3Qm94PSIwIDAgMjYxLjQ0IDEzNi42NCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQuNjY2NjY3IiBmaWxsPSJub25lIj4KPGcgaWQ9InMwIj4KPGxpbmUgeDE9IjE2LjQyNjY2NyIgeTE9IjEyMi40NTMzMzMiIHgyPSIxNi40MjY2NjciIHkyPSI2OC4yMTMzMzMiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMS4wNjY2NjciLz4KPC9nPgo8ZyBpZD0iczEiPgo8bGluZSB4MT0iMS4wNjY2NjciIHkxPSI2OC4yMTMzMzMiIHgyPSIzMS43ODY2NjciIHkyPSI2OC4yMTMzMzMiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMS4wNjY2NjciLz4KPC9nPgo8ZyBpZD0iczIiPgo8bGluZSB4MT0iOC43NDY2NjciIHkxPSI2MS40OTMzMzMiIHgyPSIyNC4xMDY2NjciIHkyPSI2MS40OTMzMzMiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMS4wNjY2NjciLz4KPC9nPgo8ZyBpZD0iczMiPgo8bGluZSB4MT0iMTYuNDI2NjY3IiB5MT0iNjEuNDkzMzMzIiB4Mj0iMTYuNDI2NjY3IiB5Mj0iNy4yNTMzMzMiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMS4wNjY2NjciLz4KPC9nPgo8ZyBpZD0iczQiPgo8cG9seWxpbmUgcG9pbnRzPSIxNi40MjY2NjcsNy4yNTMzMzMgMTEwLjAyNjY2Nyw3LjI1MzMzMyAxMTAuMDI2NjY3LDcuMjUzMzMzIDExMy42MjUyMjcsMC41MzMzMzMgMTEzLjYyNTIyNywwLjUzMzMzMyAxMjAuODI2NjY3LDEzLjk3MzMzMyAxMjAuODI2NjY3LDEzLjk3MzMzMyAxMjguMDI4MTA3LDAuNTMzMzMzIDEyOC4wMjgxMDcsMC41MzMzMzMgMTM1LjIyNTIyNywxMy45NzMzMzMgMTM1LjIyNTIyNywxMy45NzMzMzMgMTQyLjQyNjY2NywwLjUzMzMzMyAxNDIuNDI2NjY3LDAuNTMzMzMzIDE0OS42MjgxMDcsMTMuOTczMzMzIDE0OS42MjgxMDcsMTMuOTczMzMzIDE1My4yMjY2NjcsNy4yNTMzMzMgMTUzLjIyNjY2Nyw3LjI1MzMzMyAyNDYuODI2NjY3LDcuMjUzMzMzIiBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjEuMDY2NjY3Ii8+CjwvZz4KPGcgaWQ9InM1Ij4KPGxpbmUgeDE9IjI0Ni44MjY2NjciIHkxPSI3LjI1MzMzMyIgeDI9IjI0Ni44MjY2NjciIHkyPSI2MS40OTMzMzMiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMS4wNjY2NjciLz4KPC9nPgo8ZyBpZD0iczYiPgo8bGluZSB4MT0iMjU5LjMwNjY2NyIgeTE9IjYxLjQ5MzMzMyIgeDI9IjIzNC4zNDY2NjciIHkyPSI2MS40OTMzMzMiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMS4wNjY2NjciLz4KPC9nPgo8ZyBpZD0iczciPgo8bGluZSB4MT0iMjU5LjMwNjY2NyIgeTE9IjY4LjIxMzMzMyIgeDI9IjIzNC4zNDY2NjciIHkyPSI2OC4yMTMzMzMiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMS4wNjY2NjciLz4KPC9nPgo8ZyBpZD0iczgiPgo8bGluZSB4MT0iMjQ2LjgyNjY2NyIgeTE9IjY4LjIxMzMzMyIgeDI9IjI0Ni44MjY2NjciIHkyPSIxMjIuNDUzMzMzIiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjEuMDY2NjY3Ii8+CjwvZz4KPGcgaWQ9InM5Ij4KPGxpbmUgeDE9IjI0Ni44MjY2NjciIHkxPSIxMjIuNDUzMzMzIiB4Mj0iMTU1LjYyNjY2NyIgeTI9IjEyMi40NTMzMzMiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMS4wNjY2NjciLz4KPC9nPgo8ZyBpZD0iczEwIj4KPHBhdGggZD0iTSAxNTUuNjI2NjY3IDEyMi40NTMzMzMgQyAxNTQuNjI2NjY3IDEyNC4zNzMzMzMgMTUzLjYyNjY2NyAxMjYuMjkzMzMzIDE1Mi42MjY2NjcgMTI4LjIxMzMzMyAxNTAuNjI2NjY3IDEzMi4wNTMzMzMgMTQ4LjYyNjY2NyAxMzIuMDUzMzMzIDE0Ni42MjY2NjcgMTI4LjIxMzMzMyAxNDQuNjI2NjY3IDEyNC4zNzMzMzMgMTQyLjYyNjY2NyAxMjQuMzczMzMzIDE0MC42MjY2NjcgMTI4LjIxMzMzMyAxMzguNjI2NjY3IDEzMi4wNTMzMzMgMTM2LjYyNjY2NyAxMzIuMDUzMzMzIDEzNC42MjY2NjcgMTI4LjIxMzMzMyAxMzIuNjI2NjY3IDEyNC4zNzMzMzMgMTMwLjYyNjY2NyAxMjQuMzczMzMzIDEyOC42MjY2NjcgMTI4LjIxMzMzMyAxMjYuNjI2NjY3IDEzMi4wNTMzMzMgMTI0LjYyNjY2NyAxMzIuMDUzMzMzIDEyMi42MjY2NjcgMTI4LjIxMzMzMyAxMjAuNjI2NjY3IDEyNC4zNzMzMzMgMTE4LjYyNjY2NyAxMjQuMzczMzMzIDExNi42MjY2NjcgMTI4LjIxMzMzMyAxMTQuNjI2NjY3IDEzMi4wNTMzMzMgMTEyLjYyNjY2NyAxMzIuMDUzMzMzIDExMC42MjY2NjcgMTI4LjIxMzMzMyAxMDkuNjI2NjY3IDEyNi4yOTMzMzMgMTA4LjYyNjY2NyAxMjQuMzczMzMzIDEwNy42MjY2NjcgMTIyLjQ1MzMzMyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIxLjA2NjY2NyIvPgo8L2c+CjxnIGlkPSJzMTEiPgo8bGluZSB4MT0iMTA3LjYyNjY2NyIgeTE9IjEyMi40NTMzMzMiIHgyPSIxNi40MjY2NjciIHkyPSIxMjIuNDUzMzMzIiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjEuMDY2NjY3Ii8+CjwvZz4KPGcgaWQ9InMxMiI+CjxjaXJjbGUgY3g9IjE2LjQyNjY2NyIgY3k9IjcuMjUzMzMzIiByPSIzLjM2IiBmaWxsPSJyZ2IoMCwwLDApIiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjEuMDY2NjY3Ii8+CjwvZz4KPGcgaWQ9InMxMyI+CjxjaXJjbGUgY3g9IjI0Ni44MjY2NjciIGN5PSI3LjI1MzMzMyIgcj0iMy4zNiIgZmlsbD0icmdiKDAsMCwwKSIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIxLjA2NjY2NyIvPgo8L2c+CjxnIGlkPSJzMTQiPgo8Y2lyY2xlIGN4PSIyNDYuODI2NjY3IiBjeT0iMTIyLjQ1MzMzMyIgcj0iMy4zNiIgZmlsbD0icmdiKDAsMCwwKSIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIxLjA2NjY2NyIvPgo8L2c+CjxnIGlkPSJzMTUiPgo8Y2lyY2xlIGN4PSIxNi40MjY2NjciIGN5PSIxMjIuNDUzMzMzIiByPSIzLjM2IiBmaWxsPSJyZ2IoMCwwLDApIiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjEuMDY2NjY3Ii8+CjwvZz4KPC9zdmc+Cgo=" alt="a rectangular circuit loop: battery on the left, resistor on top, capacitor on the right, inductor on the bottom, with junction dots" />
+<div class="figcaption">a rectangular circuit loop: battery on the left,
+resistor on top, capacitor on the right, inductor on the bottom, with
+junction dots</div>
+</div>
+</div>
+<div id="labels-with-tex-math" class="section level2">
+<h2>Labels — with TeX math</h2>
+<p>Circuit figures traditionally carry math labels; combine the library
+with <code>texlabels</code>:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">rpic_svg</span>(<span class="st">&#39;</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="st">A:(0,0); B:(1.4,0); C:(2.8,0)</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="st">resistor(A,B); &quot;$R_1$&quot; at 0.5 between A and B + (0, 0.35)</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="st">diode(B,C);   &quot;$D_1$&quot; at 0.5 between B and C + (0, 0.35)</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="st">&#39;</span>, <span class="at">circuits =</span> <span class="cn">TRUE</span>, <span class="at">texlabels =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="float">
+<img role="img" aria-label="a resistor labelled R1 and a diode labelled D1 in series" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyODcuMzYiIGhlaWdodD0iNTIuNjgiIHZpZXdCb3g9IjAgMCAyODcuMzYgNTIuNjgiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0LjY2NjY2NyIgZmlsbD0ibm9uZSI+CjxnIGlkPSJzMCI+Cjxwb2x5bGluZSBwb2ludHM9IjguNzQ2NjY3LDI5Ljg1MzMzMyA1NC4zNDY2NjcsMjkuODUzMzMzIDU0LjM0NjY2NywyOS44NTMzMzMgNTcuOTQ1MjI3LDIzLjEzMzMzMyA1Ny45NDUyMjcsMjMuMTMzMzMzIDY1LjE0NjY2NywzNi41NzMzMzMgNjUuMTQ2NjY3LDM2LjU3MzMzMyA3Mi4zNDgxMDcsMjMuMTMzMzMzIDcyLjM0ODEwNywyMy4xMzMzMzMgNzkuNTQ1MjI3LDM2LjU3MzMzMyA3OS41NDUyMjcsMzYuNTczMzMzIDg2Ljc0NjY2NywyMy4xMzMzMzMgODYuNzQ2NjY3LDIzLjEzMzMzMyA5My45NDgxMDcsMzYuNTczMzMzIDkzLjk0ODEwNywzNi41NzMzMzMgOTcuNTQ2NjY3LDI5Ljg1MzMzMyA5Ny41NDY2NjcsMjkuODUzMzMzIDE0My4xNDY2NjcsMjkuODUzMzMzIiBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjEuMDY2NjY3Ii8+CjwvZz4KPGcgaWQ9InMxIj4KPHN2ZyB4PSI2Ny40NDUyMDciIHk9IjYuOTQyMjQ3IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNy4wMDI5MiAxMi4yMjIxNzMiIHdpZHRoPSIxNy4wMDI5MiIgaGVpZ2h0PSIxMi4yMjIxNzMiPjxwYXRoIGQ9Ik00LjIwOTMzMyAwLjgxMTUwNiBRNC4yMDkzMzMgMC43OTY4NCA0LjE5NDY2NyAwLjc3NDgzOSBRNC4xOCAwLjc1MjgzOSA0LjE1MDY2NyAwLjc0NTUwNiBRNC4xMjEzMzQgMC43MzgxNzMgNC4wOTIgMC43MjM1MDYgUTQuMDYyNjY3IDAuNzA4ODM5IDQuMDA0IDAuNzAxNTA2IFEzLjk0NTMzMyAwLjY5NDE3MyAzLjkwMTMzNCAwLjY5NDE3MyBRMy44NTczMzMgMC42OTQxNzMgMy43ODQgMC42OTQxNzMgUTMuNzEwNjY3IDAuNjk0MTczIDMuNjU5MzMzIDAuNjg2ODM5IFEzLjYwOCAwLjY3OTUwNiAzLjUyIDAuNjc5NTA2IFEzLjQzMiAwLjY3OTUwNiAzLjM3MzMzMyAwLjY3OTUwNiBRMy4wMjEzMzMgMC42Nzk1MDYgMi45NDggMC42NjQ4MzkgUTIuODc0NjY3IDAuNjUwMTcyIDIuODQ1MzMzIDAuNTc2ODM5IFEyLjgxNiAwLjUzMjgzOSAyLjg2IDAuMzEyODQgUTIuOTMzMzMzIDAuMDQ4ODQgMi45OTIgMC4wMTk1MDYgUTMuMDIxMzMzIDAuMDA0ODM5IDUuNTQ0IDAuMDA0ODM5IFE4LjA2NjY2NyAwLjAxOTUwNiA4LjI3MiAwLjA0ODg0IFE5LjYwNjY2NyAwLjIzOTUwNiAxMC4yOTYgMC45NTgxNzMgUTEwLjgzODY2NyAxLjU0NDgzOSAxMC44Mzg2NjcgMi4yNjM1MDYgUTEwLjgzODY2NyAyLjQxMDE3MiAxMC43ODAwMDEgMi43MDM1MDYgUTEwLjQ0MjY2NyA0LjAwODg0IDguNjI0MDAxIDQuODE1NTA2IFE3Ljk3ODY2NyA1LjA2NDgzOSA3Ljg5MDY2NyA1LjA2NDgzOSBMNy45OTMzMzQgNS4xMzgxNzMgUTguOTc2MDAxIDUuNjk1NTA2IDguOTc2MDAxIDYuNzUxNTA2IFE4Ljk3NjAwMSA2LjkyNzUwNiA4LjkwMjY2NyA3LjY5MDE3MyBROC44MjkzMzMgOC4zOTQxNzMgOC44MjkzMzMgOC44NDg4NCBROC44MjkzMzMgOS4zNjIxNzMgOC45MzIgOS41NzQ4NCBROS4wMzQ2NjcgOS43ODc1MDYgOS4zODY2NjcgOS43ODc1MDYgUTkuNTkyIDkuNzg3NTA2IDkuNjUwNjY3IDkuNzU4MTczIFExMC4yMDggOS41MzgxNzMgMTAuNDQyNjY3IDguNzc1NTA2IFExMC41MTYwMDEgOC41NzAxNzMgMTAuNTYgOC41MjYxNzMgUTEwLjYwNCA4LjQ4MjE3MyAxMC43ODAwMDEgOC40ODIxNzMgUTExLjA3MzMzNCA4LjQ4MjE3MyAxMS4wNzMzMzQgOC42NTgxNzMgUTExLjA3MzMzNCA4LjkyMjE3MyAxMC43MjEzMzQgOS40OTQxNzMgUTEwLjI4MTMzNCAxMC4xMzk1MDYgOS42OTQ2NjcgMTAuMzAwODM5IFE5LjU3NzMzMyAxMC4zMzAxNzMgOS4yNjkzMzQgMTAuMzMwMTczIFE3Ljc0NCAxMC4zMzAxNzMgNy4yODkzMzQgOS40MDYxNzMgUTcuMTU3MzMzIDkuMTcxNTA2IDcuMTQyNjY3IDguODE5NTA2IFE3LjE0MjY2NyA4LjY1ODE3MyA3LjE1IDguNTYyODQgUTcuMTU3MzMzIDguNDY3NTA2IDcuMTcyIDguMzUwMTczIFE3LjE4NjY2NyA4LjIzMjg0IDcuMjAxMzM0IDguMTc0MTczIFE3LjIxNiA4LjExNTUwNiA3LjI3NDY2NyA3LjkyNDgzOSBRNy4zMzMzMzMgNy43MzQxNzMgNy4zNjI2NjcgNy41ODc1MDYgUTcuNTgyNjY3IDYuNzUxNTA2IDcuNTgyNjY3IDYuNTE2ODQgUTcuNTgyNjY3IDUuNzgzNTA2IDYuOTUyIDUuNDMxNTA2IFE2LjczMiA1LjMyODgzOSA2LjU4NTMzMyA1LjMxNDE3MyBRNi40Mzg2NjcgNS4yOTk1MDYgNS41NDQgNS4yODQ4NCBMNC41MzIgNS4yODQ4NCBMNC4wNjI2NjcgNy4xOTE1MDYgUTMuNTc4NjY3IDkuMTI3NTA2IDMuNTc4NjY3IDkuMTU2ODM5IFEzLjU3ODY2NyA5LjI1OTUwNiAzLjYyMjY2NyA5LjI3NDE3MyBRMy43MjUzMzMgOS4zMTgxNzIgNC40MjkzMzQgOS4zNDc1MDcgTDQuODg0IDkuMzQ3NTA3IFE0Ljk1NzMzNCA5LjQ1MDE3MiA0Ljk2NDY2NyA5LjQ3MjE3MyBRNC45NzIgOS40OTQxNzMgNC45MjggOS43NDM1MDYgUTQuODY5MzM0IDkuOTM0MTczIDQuNzgxMzMzIDEwLjAyMjE3MyBMNC41NjEzMzQgMTAuMDIyMTczIFE0LjAzMzMzMyA5Ljk5Mjg0IDIuNjQgOS45OTI4NCBRMi4yODggOS45OTI4NCAxLjY1NzMzMyAxMC4wMDAxNzMgUTEuMDI2NjY3IDEwLjAwNzUwNiAwLjczMzMzMyAxMC4wMDc1MDYgUTAuNDg0IDEwLjAwNzUwNiAwLjQ4NCA5Ljg5MDE3MyBRMC40ODQgOS44NzU1MDYgMC41MDYgOS44MDIxNzMgUTAuNTI4IDkuNzI4ODQgMC41MjggOS42NzAxNzMgUTAuNTI4IDkuNjU1NTA2IDAuNTQyNjY3IDkuNjExNTA2IFEwLjYxNiA5LjM3Njg0IDAuNzA0IDkuMzYyMTczIFEwLjc0OCA5LjM0NzUwNyAwLjg5NDY2NyA5LjM0NzUwNyBMMC45ODI2NjcgOS4zNDc1MDcgUTEuMzc4NjY3IDkuMzQ3NTA3IDEuODYyNjY3IDkuMzAzNTA2IFEyLjA2OCA5LjI1OTUwNiAyLjE0MTMzMyA5LjEyNzUwNiBRMi4xODUzMzMgOS4wNjg4NCAzLjE5NzMzMyA1LjA1MDE3MyBRNC4yMDkzMzMgMS4wMzE1MDYgNC4yMDkzMzMgMC44MTE1MDYgTDQuMjA5MzMzIDAuODExNTA2IFogTTkuMDA1MzM0IDEuMTkyODQgUTguNjk3MzMzIDAuODcwMTczIDguMTk4NjY3IDAuNzc0ODM5IFE3LjcgMC42Nzk1MDYgNi43NzYgMC42Nzk1MDYgUTYuNiAwLjY3OTUwNiA2LjQwOTMzNCAwLjY4NjgzOSBRNi4yMTg2NjcgMC42OTQxNzMgNi4wNzkzMzQgMC42OTQxNzMgUTUuOTQgMC42OTQxNzMgNS45MjUzMzMgMC42OTQxNzMgUTUuNzM0NjY3IDAuNzA4ODM5IDUuNjYxMzM0IDAuODI2MTczIFE1LjY0NjY2NyAwLjg3MDE3MyA1LjE2MjY2NyAyLjc4NDE3MyBRNC42Nzg2NjcgNC42OTgxNzMgNC42Nzg2NjcgNC43Mjc1MDYgUTQuNjc4NjY3IDQuNzQyMTczIDUuNjkwNjY3IDQuNzQyMTczIFE2LjgzNDY2NyA0LjcyNzUwNiA3LjIxNiA0LjYzOTUwNiBROC4xNjkzMzMgNC40NzgxNzMgOC42ODI2NjcgMy43NzQxNzMgUTguOTE3MzM0IDMuNDM2ODQgOS4wNzg2NjcgMi44ODY4MzkgUTkuMjQwMDAxIDIuMzM2ODM5IDkuMjQwMDAxIDEuODk2ODM5IFE5LjI0MDAwMSAxLjQ0MjE3MyA5LjAwNTMzNCAxLjE5Mjg0IEw5LjAwNTMzNCAxLjE5Mjg0IFoiIGZpbGw9InJnYmEoMCwwLDAsMSkiIGZpbGwtcnVsZT0ibm9uemVybyIgc3Ryb2tlPSJub25lIi8+PHBhdGggZD0iTTE1LjQwNzE4NyAxMi4yMjIxNzQgUTE1LjIzMjY1MyAxMi4xOTEzNzQgMTMuNzc0Nzg3IDEyLjE5MTM3NCBRMTIuMzM3NDU0IDEyLjE5MTM3NCAxMi4xNjI5MiAxMi4yMjIxNzQgTDEyLjAzOTcyIDEyLjIyMjE3NCBMMTIuMDM5NzIgMTEuNzQ5OTA3IEwxMi4zMDY2NTMgMTEuNzQ5OTA3IFExMi45MDIxMiAxMS43NDk5MDcgMTMuMDc2NjUzIDExLjcxOTEwNyBRMTMuMTU4Nzg3IDExLjcwODg0IDEzLjMyMzA1MyAxMS41OTU5MDcgTDEzLjMyMzA1MyA2LjI4ODA0MSBRMTMuMzAyNTIgNi4yODgwNDEgMTMuMjQwOTIgNi4zMTg4NDEgUTEyLjc2ODY1MyA2LjUwMzY0MSAxMi4xODM0NTQgNi41MTM5MDcgTDExLjk4ODM4NiA2LjUxMzkwNyBMMTEuOTg4Mzg2IDYuMDQxNjQxIEwxMi4xODM0NTQgNi4wNDE2NDEgUTEzLjA0NTg1NCA2LjAxMDg0IDEzLjYyMDc4NyA1LjY1MTUwNyBRMTMuODA1NTg3IDUuNTQ4ODQxIDEzLjkzOTA1NCA1LjQxNTM3NCBRMTMuOTU5NTg3IDUuMzg0NTc0IDE0LjA2MjI1MyA1LjM4NDU3NCBRMTQuMTY0OTIgNS4zODQ1NzQgMTQuMjM2Nzg3IDUuNDQ2MTc0IEwxNC4yMzY3ODcgOC41MTU5MDcgTDE0LjI0NzA1MyAxMS41OTU5MDcgUTE0LjQwMTA1MyAxMS43NDk5MDcgMTQuOTE0Mzg3IDExLjc0OTkwNyBMMTUuMjUzMTg3IDExLjc0OTkwNyBMMTUuNTIwMTIgMTEuNzQ5OTA3IEwxNS41MjAxMiAxMi4yMjIxNzQgTDE1LjQwNzE4NyAxMi4yMjIxNzQgTDE1LjQwNzE4NyAxMi4yMjIxNzQgWiIgZmlsbD0icmdiYSgwLDAsMCwxKSIgZmlsbC1ydWxlPSJub256ZXJvIiBzdHJva2U9Im5vbmUiLz48L3N2Zz4KPC9nPgo8ZyBpZD0iczIiPgo8bGluZSB4MT0iMTQzLjE0NjY2NyIgeTE9IjI5Ljg1MzMzMyIgeDI9IjE5Ny44NjY2NjciIHkyPSIyOS44NTMzMzMiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMS4wNjY2NjciLz4KPC9nPgo8ZyBpZD0iczMiPgo8cG9seWxpbmUgcG9pbnRzPSIxOTcuODY2NjY3LDE3LjM3MzMzMyAxOTcuODY2NjY3LDE3LjM3MzMzMyAxOTcuODY2NjY3LDQyLjMzMzMzMyAxOTcuODY2NjY3LDQyLjMzMzMzMyAyMjIuODI2NjY3LDI5Ljg1MzMzMyAyMjIuODI2NjY3LDI5Ljg1MzMzMyAxOTcuODY2NjY3LDE3LjM3MzMzMyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIxLjA2NjY2NyIvPgo8L2c+CjxnIGlkPSJzNCI+CjxsaW5lIHgxPSIyMjIuODI2NjY3IiB5MT0iMTcuMzczMzMzIiB4Mj0iMjIyLjgyNjY2NyIgeTI9IjQyLjMzMzMzMyIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIxLjA2NjY2NyIvPgo8L2c+CjxnIGlkPSJzNSI+CjxsaW5lIHgxPSIyMjIuODI2NjY3IiB5MT0iMjkuODUzMzMzIiB4Mj0iMjc3LjU0NjY2NyIgeTI9IjI5Ljg1MzMzMyIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIxLjA2NjY2NyIvPgo8L2c+CjxnIGlkPSJzNiI+CjxzdmcgeD0iMjAxLjM0MTkyIiB5PSI2Ljk0MjI0NyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgMTguMDA5NDkzIDEyLjIyMjE3MyIgd2lkdGg9IjE4LjAwOTQ5MyIgaGVpZ2h0PSIxMi4yMjIxNzMiPjxwYXRoIGQ9Ik00LjIwOTMzMyAwLjgxMTUwNiBRNC4yMDkzMzMgMC43OTY4NCA0LjE5NDY2NyAwLjc3NDgzOSBRNC4xOCAwLjc1MjgzOSA0LjE1MDY2NyAwLjc0NTUwNiBRNC4xMjEzMzQgMC43MzgxNzMgNC4wOTIgMC43MjM1MDYgUTQuMDYyNjY3IDAuNzA4ODM5IDQuMDA0IDAuNzAxNTA2IFEzLjk0NTMzMyAwLjY5NDE3MyAzLjkwMTMzNCAwLjY5NDE3MyBRMy44NTczMzMgMC42OTQxNzMgMy43ODQgMC42OTQxNzMgUTMuNzEwNjY3IDAuNjk0MTczIDMuNjU5MzMzIDAuNjg2ODM5IFEzLjYwOCAwLjY3OTUwNiAzLjUyIDAuNjc5NTA2IFEzLjQzMiAwLjY3OTUwNiAzLjM3MzMzMyAwLjY3OTUwNiBRMi44NzQ2NjcgMC42Nzk1MDYgMi44MzA2NjcgMC41NzY4MzkgUTIuODE2IDAuNTMyODM5IDIuODYgMC4zMjc1MDYgUTIuOTMzMzMzIDAuMDQ4ODQgMi45OTIgMC4wMTk1MDYgUTMuMDIxMzMzIDAuMDA0ODM5IDUuOTEwNjY3IDAuMDA0ODM5IFE4LjM2MDAwMSAwLjAxOTUwNiA4LjY1MzMzNCAwLjAyNjgzOSBROC45NDY2NjcgMC4wMzQxNzMgOS4yNDAwMDEgMC4xMDc1MDYgUTEwLjM5ODY2NyAwLjM3MTUwNiAxMS4wODggMS4zMjQ4NCBRMTEuNzc3MzM0IDIuMjc4MTcyIDExLjc3NzMzNCAzLjcwMDg0IFExMS43NzczMzQgNC40MzQxNzMgMTEuNjAxMzM0IDUuMTM4MTczIFExMS4xOTA2NjcgNi43OTU1MDYgOS44ODUzMzQgOC4xNDQ4MzkgUTguNDA0IDkuNjcwMTczIDYuNTEyIDkuOTc4MTczIEw2LjMwNjY2NyAxMC4wMDc1MDYgTDMuNDYxMzM0IDEwLjAyMjE3MyBMMS44MzMzMzMgMTAuMDIyMTczIFEwLjUyOCAxMC4wMjIxNzMgMC41MTMzMzMgOS45NDg4MzkgTDAuNTEzMzMzIDkuOTM0MTczIFEwLjQ4NCA5Ljg5MDE3MyAwLjUyOCA5LjY1NTUwNiBRMC41ODY2NjcgOS40MjA4MzkgMC42MzggOS4zODQxNzIgUTAuNjg5MzMzIDkuMzQ3NTA3IDAuOTgyNjY3IDkuMzQ3NTA3IFExLjM3ODY2NyA5LjM0NzUwNyAxLjg2MjY2NyA5LjMwMzUwNiBRMi4wNjggOS4yNTk1MDYgMi4xNDEzMzMgOS4xMjc1MDYgUTIuMTg1MzMzIDkuMDY4ODQgMy4xOTczMzMgNS4wNTAxNzMgUTQuMjA5MzMzIDEuMDMxNTA2IDQuMjA5MzMzIDAuODExNTA2IEw0LjIwOTMzMyAwLjgxMTUwNiBaIE0xMC4zMTA2NjcgMy4xNDM1MDYgUTEwLjMxMDY2NyAyLjA1ODE3MyA5LjczODY2NyAxLjQyNzUwNSBROS4xNjY2NjcgMC43OTY4NCA4LjE0IDAuNjk0MTczIFE4LjExMDY2NyAwLjY5NDE3MyA3LjkzNDY2NyAwLjY5NDE3MyBRNy43NTg2NjcgMC42OTQxNzMgNy41MDIgMC42ODY4MzkgUTcuMjQ1MzM0IDAuNjc5NTA2IDcuMDI1MzMzIDAuNjc5NTA2IFE2LjgwNTMzNCAwLjY3OTUwNiA2LjU0ODY2NyAwLjY4NjgzOSBRNi4yOTIgMC42OTQxNzMgNi4xMTYgMC42OTQxNzMgUTUuOTQgMC42OTQxNzMgNS45MjUzMzMgMC42OTQxNzMgUTUuNzM0NjY3IDAuNzA4ODM5IDUuNjYxMzM0IDAuODI2MTczIFE1LjYzMiAwLjg4NDgzOSA0LjU5MDY2NyA1LjA1MDE3MyBRMy41NDkzMzQgOS4yMTU1MDcgMy41NDkzMzQgOS4yNTk1MDYgUTMuNTQ5MzM0IDkuMzE4MTcyIDMuNzE4IDkuMzI1NTA2IFEzLjg4NjY2NyA5LjMzMjg0IDQuODQgOS4zMzI4NCBRNi4wMjggOS4zMzI4NCA2LjE3NDY2NyA5LjMxODE3MiBRNy41NjggOS4wOTgxNzMgOC41MjEzMzQgOC4xNDQ4MzkgUTkuMDQ5MzM0IDcuNjE2ODM5IDkuMzg2NjY3IDYuOTEyODM5IFE5LjcyNCA2LjIwODgzOSAxMC4wMTczMzQgNS4wNTAxNzMgUTEwLjMxMDY2NyAzLjg5MTUwNiAxMC4zMTA2NjcgMy4xNDM1MDYgTDEwLjMxMDY2NyAzLjE0MzUwNiBaIiBmaWxsPSJyZ2JhKDAsMCwwLDEpIiBmaWxsLXJ1bGU9Im5vbnplcm8iIHN0cm9rZT0ibm9uZSIvPjxwYXRoIGQ9Ik0xNi40MTM3NjEgMTIuMjIyMTc0IFExNi4yMzkyMjcgMTIuMTkxMzc0IDE0Ljc4MTM2MSAxMi4xOTEzNzQgUTEzLjM0NDAyNyAxMi4xOTEzNzQgMTMuMTY5NDk0IDEyLjIyMjE3NCBMMTMuMDQ2MjkzIDEyLjIyMjE3NCBMMTMuMDQ2MjkzIDExLjc0OTkwNyBMMTMuMzEzMjI3IDExLjc0OTkwNyBRMTMuOTA4NjkzIDExLjc0OTkwNyAxNC4wODMyMjcgMTEuNzE5MTA3IFExNC4xNjUzNiAxMS43MDg4NCAxNC4zMjk2MjcgMTEuNTk1OTA3IEwxNC4zMjk2MjcgNi4yODgwNDEgUTE0LjMwOTA5MyA2LjI4ODA0MSAxNC4yNDc0OTQgNi4zMTg4NDEgUTEzLjc3NTIyNyA2LjUwMzY0MSAxMy4xOTAwMjcgNi41MTM5MDcgTDEyLjk5NDk2MSA2LjUxMzkwNyBMMTIuOTk0OTYxIDYuMDQxNjQxIEwxMy4xOTAwMjcgNi4wNDE2NDEgUTE0LjA1MjQyNyA2LjAxMDg0IDE0LjYyNzM2IDUuNjUxNTA3IFExNC44MTIxNiA1LjU0ODg0MSAxNC45NDU2MjcgNS40MTUzNzQgUTE0Ljk2NjE2IDUuMzg0NTc0IDE1LjA2ODgyNyA1LjM4NDU3NCBRMTUuMTcxNDk0IDUuMzg0NTc0IDE1LjI0MzM2MSA1LjQ0NjE3NCBMMTUuMjQzMzYxIDguNTE1OTA3IEwxNS4yNTM2MjcgMTEuNTk1OTA3IFExNS40MDc2MjcgMTEuNzQ5OTA3IDE1LjkyMDk2IDExLjc0OTkwNyBMMTYuMjU5NzYgMTEuNzQ5OTA3IEwxNi41MjY2OTMgMTEuNzQ5OTA3IEwxNi41MjY2OTMgMTIuMjIyMTc0IEwxNi40MTM3NjEgMTIuMjIyMTc0IEwxNi40MTM3NjEgMTIuMjIyMTc0IFoiIGZpbGw9InJnYmEoMCwwLDAsMSkiIGZpbGwtcnVsZT0ibm9uemVybyIgc3Ryb2tlPSJub25lIi8+PC9zdmc+CjwvZz4KPC9zdmc+Cgo=" alt="a resistor labelled R1 and a diode labelled D1 in series" />
+<div class="figcaption">a resistor labelled R1 and a diode labelled D1
+in series</div>
+</div>
+</div>
+<div id="logic-gates" class="section level2">
+<h2>Logic gates</h2>
+<p>Gates take a center point and export their terminals as variables
+(<code>gA_x</code>/<code>gA_y</code>, <code>gB_…</code>,
+<code>gY_…</code>):</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">rpic_svg</span>(<span class="st">&#39;</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="st">P:(0.5,0); and_gate(P)</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="st">Q:(1.9,0); nand_gate(Q)</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="st">R:(3.3,0); xor_gate(R)</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="st">&quot;AND&quot; at (0.5,-0.55); &quot;NAND&quot; at (1.9,-0.55); &quot;XOR&quot; at (3.3,-0.55)</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="st">&#39;</span>, <span class="at">circuits =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="float">
+<img role="img" aria-label="AND, NAND and XOR gate symbols side by side" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNTkuMzYiIGhlaWdodD0iODQuODQiIHZpZXdCb3g9IjAgMCAzNTkuMzYgODQuODQiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0LjY2NjY2NyIgZmlsbD0ibm9uZSI+CjxnIGlkPSJzMCI+Cjxwb2x5bGluZSBwb2ludHM9IjE4LjM0NjY2Nyw0OC41MzMzMzMgMTguMzQ2NjY3LDAuNTMzMzMzIDE4LjM0NjY2NywwLjUzMzMzMyA0Mi4zNDY2NjcsMC41MzMzMzMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMS4wNjY2NjciLz4KPC9nPgo8ZyBpZD0iczEiPgo8cGF0aCBkPSJNIDQyLjM0NjY2NyAwLjUzMzMzMyBDIDQ1LjE3NDY2NyAxLjcwNTMzMyA0OC4wMDI2NjcgMi44NzczMzMgNTAuODMwNjY3IDQuMDQ5MzMzIDU2LjQ4NjY2NyA2LjM5MzMzMyA2MC40ODY2NjcgMTAuMzkzMzMzIDYyLjgzMDY2NyAxNi4wNDkzMzMgNjUuMTc0NjY3IDIxLjcwNTMzMyA2NS4xNzQ2NjcgMjcuMzYxMzMzIDYyLjgzMDY2NyAzMy4wMTczMzMgNjAuNDg2NjY3IDM4LjY3MzMzMyA1Ni40ODY2NjcgNDIuNjczMzMzIDUwLjgzMDY2NyA0NS4wMTczMzMgNDguMDAyNjY3IDQ2LjE4OTMzMyA0NS4xNzQ2NjcgNDcuMzYxMzMzIDQyLjM0NjY2NyA0OC41MzMzMzMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMS4wNjY2NjciLz4KPC9nPgo8ZyBpZD0iczIiPgo8bGluZSB4MT0iNDIuMzQ2NjY3IiB5MT0iNDguNTMzMzMzIiB4Mj0iMTguMzQ2NjY3IiB5Mj0iNDguNTMzMzMzIiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjEuMDY2NjY3Ii8+CjwvZz4KPGcgaWQ9InMzIj4KPGxpbmUgeDE9IjEuMDY2NjY3IiB5MT0iMTAuMTMzMzMzIiB4Mj0iMTguMzQ2NjY3IiB5Mj0iMTAuMTMzMzMzIiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjEuMDY2NjY3Ii8+CjwvZz4KPGcgaWQ9InM0Ij4KPGxpbmUgeDE9IjEuMDY2NjY3IiB5MT0iMzguOTMzMzMzIiB4Mj0iMTguMzQ2NjY3IiB5Mj0iMzguOTMzMzMzIiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjEuMDY2NjY3Ii8+CjwvZz4KPGcgaWQ9InM1Ij4KPGxpbmUgeDE9IjY2LjM0NjY2NyIgeTE9IjI0LjUzMzMzMyIgeDI9IjgzLjYyNjY2NyIgeTI9IjI0LjUzMzMzMyIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIxLjA2NjY2NyIvPgo8L2c+CjxnIGlkPSJzNiI+Cjxwb2x5bGluZSBwb2ludHM9IjE1Mi43NDY2NjcsNDguNTMzMzMzIDE1Mi43NDY2NjcsMC41MzMzMzMgMTUyLjc0NjY2NywwLjUzMzMzMyAxNzYuNzQ2NjY3LDAuNTMzMzMzIiBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjEuMDY2NjY3Ii8+CjwvZz4KPGcgaWQ9InM3Ij4KPHBhdGggZD0iTSAxNzYuNzQ2NjY3IDAuNTMzMzMzIEMgMTc5LjU3NDY2NyAxLjcwNTMzMyAxODIuNDAyNjY3IDIuODc3MzMzIDE4NS4yMzA2NjcgNC4wNDkzMzMgMTkwLjg4NjY2NyA2LjM5MzMzMyAxOTQuODg2NjY3IDEwLjM5MzMzMyAxOTcuMjMwNjY3IDE2LjA0OTMzMyAxOTkuNTc0NjY3IDIxLjcwNTMzMyAxOTkuNTc0NjY3IDI3LjM2MTMzMyAxOTcuMjMwNjY3IDMzLjAxNzMzMyAxOTQuODg2NjY3IDM4LjY3MzMzMyAxOTAuODg2NjY3IDQyLjY3MzMzMyAxODUuMjMwNjY3IDQ1LjAxNzMzMyAxODIuNDAyNjY3IDQ2LjE4OTMzMyAxNzkuNTc0NjY3IDQ3LjM2MTMzMyAxNzYuNzQ2NjY3IDQ4LjUzMzMzMyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIxLjA2NjY2NyIvPgo8L2c+CjxnIGlkPSJzOCI+CjxsaW5lIHgxPSIxNzYuNzQ2NjY3IiB5MT0iNDguNTMzMzMzIiB4Mj0iMTUyLjc0NjY2NyIgeTI9IjQ4LjUzMzMzMyIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIxLjA2NjY2NyIvPgo8L2c+CjxnIGlkPSJzOSI+CjxjaXJjbGUgY3g9IjIwNS41NDY2NjciIGN5PSIyNC41MzMzMzMiIHI9IjQuOCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIxLjA2NjY2NyIvPgo8L2c+CjxnIGlkPSJzMTAiPgo8bGluZSB4MT0iMTM1LjQ2NjY2NyIgeTE9IjEwLjEzMzMzMyIgeDI9IjE1Mi43NDY2NjciIHkyPSIxMC4xMzMzMzMiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMS4wNjY2NjciLz4KPC9nPgo8ZyBpZD0iczExIj4KPGxpbmUgeDE9IjEzNS40NjY2NjciIHkxPSIzOC45MzMzMzMiIHgyPSIxNTIuNzQ2NjY3IiB5Mj0iMzguOTMzMzMzIiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjEuMDY2NjY3Ii8+CjwvZz4KPGcgaWQ9InMxMiI+CjxsaW5lIHgxPSIyMTAuMzQ2NjY3IiB5MT0iMjQuNTMzMzMzIiB4Mj0iMjI3LjYyNjY2NyIgeTI9IjI0LjUzMzMzMyIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIxLjA2NjY2NyIvPgo8L2c+CjxnIGlkPSJzMTMiPgo8cGF0aCBkPSJNIDI3NC42NjY2NjcgMC41MzMzMzMgQyAyNzYuNTg2NjY3IDQuNTMzMzMzIDI3OC41MDY2NjcgOC41MzMzMzMgMjgwLjQyNjY2NyAxMi41MzMzMzMgMjg0LjI2NjY2NyAyMC41MzMzMzMgMjg0LjI2NjY2NyAyOC41MzMzMzMgMjgwLjQyNjY2NyAzNi41MzMzMzMgMjc4LjUwNjY2NyA0MC41MzMzMzMgMjc2LjU4NjY2NyA0NC41MzMzMzMgMjc0LjY2NjY2NyA0OC41MzMzMzMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMS4wNjY2NjciLz4KPC9nPgo8ZyBpZD0iczE0Ij4KPHBhdGggZD0iTSAyODIuMzQ2NjY3IDAuNTMzMzMzIEMgMjg0LjI2NjY2NyA0LjUzMzMzMyAyODYuMTg2NjY3IDguNTMzMzMzIDI4OC4xMDY2NjcgMTIuNTMzMzMzIDI5MS45NDY2NjcgMjAuNTMzMzMzIDI5MS45NDY2NjcgMjguNTMzMzMzIDI4OC4xMDY2NjcgMzYuNTMzMzMzIDI4Ni4xODY2NjcgNDAuNTMzMzMzIDI4NC4yNjY2NjcgNDQuNTMzMzMzIDI4Mi4zNDY2NjcgNDguNTMzMzMzIiBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjEuMDY2NjY3Ii8+CjwvZz4KPGcgaWQ9InMxNSI+CjxwYXRoIGQ9Ik0gMjgyLjM0NjY2NyAwLjUzMzMzMyBDIDI4Ny4xNDY2NjcgMC41MzMzMzMgMjkxLjk0NjY2NyAwLjUzMzMzMyAyOTYuNzQ2NjY3IDAuNTMzMzMzIDMwNi4zNDY2NjcgMC41MzMzMzMgMzE1Ljk0NjY2NyA0LjUzMzMzMyAzMjUuNTQ2NjY3IDEyLjUzMzMzMyAzMzAuMzQ2NjY3IDE2LjUzMzMzMyAzMzUuMTQ2NjY3IDIwLjUzMzMzMyAzMzkuOTQ2NjY3IDI0LjUzMzMzMyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIxLjA2NjY2NyIvPgo8L2c+CjxnIGlkPSJzMTYiPgo8cGF0aCBkPSJNIDI4Mi4zNDY2NjcgNDguNTMzMzMzIEMgMjg3LjE0NjY2NyA0OC41MzMzMzMgMjkxLjk0NjY2NyA0OC41MzMzMzMgMjk2Ljc0NjY2NyA0OC41MzMzMzMgMzA2LjM0NjY2NyA0OC41MzMzMzMgMzE1Ljk0NjY2NyA0NC41MzMzMzMgMzI1LjU0NjY2NyAzNi41MzMzMzMgMzMwLjM0NjY2NyAzMi41MzMzMzMgMzM1LjE0NjY2NyAyOC41MzMzMzMgMzM5Ljk0NjY2NyAyNC41MzMzMzMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMS4wNjY2NjciLz4KPC9nPgo8ZyBpZD0iczE3Ij4KPGxpbmUgeDE9IjI2NS4wNjY2NjciIHkxPSIxMC4xMzMzMzMiIHgyPSIyODcuMTQ2NjY3IiB5Mj0iMTAuMTMzMzMzIiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjEuMDY2NjY3Ii8+CjwvZz4KPGcgaWQ9InMxOCI+CjxsaW5lIHgxPSIyNjUuMDY2NjY3IiB5MT0iMzguOTMzMzMzIiB4Mj0iMjg3LjE0NjY2NyIgeTI9IjM4LjkzMzMzMyIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIxLjA2NjY2NyIvPgo8L2c+CjxnIGlkPSJzMTkiPgo8bGluZSB4MT0iMzM5Ljk0NjY2NyIgeTE9IjI0LjUzMzMzMyIgeDI9IjM1Ny4yMjY2NjciIHkyPSIyNC41MzMzMzMiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMS4wNjY2NjciLz4KPC9nPgo8ZyBpZD0iczIwIj4KPHRleHQgZm9udC1zaXplPSIxMXB0IiBzdHJva2Utd2lkdGg9IjAuMjY2NjY3IiBmaWxsPSJibGFjayIgeD0iNDIuMzQ2NjY3IiB5PSI4Mi4xNzMzMzMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkFORDwvdGV4dD4KPC9nPgo8ZyBpZD0iczIxIj4KPHRleHQgZm9udC1zaXplPSIxMXB0IiBzdHJva2Utd2lkdGg9IjAuMjY2NjY3IiBmaWxsPSJibGFjayIgeD0iMTc2Ljc0NjY2NyIgeT0iODIuMTczMzMzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5OQU5EPC90ZXh0Pgo8L2c+CjxnIGlkPSJzMjIiPgo8dGV4dCBmb250LXNpemU9IjExcHQiIHN0cm9rZS13aWR0aD0iMC4yNjY2NjciIGZpbGw9ImJsYWNrIiB4PSIzMTEuMTQ2NjY3IiB5PSI4Mi4xNzMzMzMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlhPUjwvdGV4dD4KPC9nPgo8L3N2Zz4KCg==" alt="AND, NAND and XOR gate symbols side by side" />
+<div class="figcaption">AND, NAND and XOR gate symbols side by
+side</div>
+</div>
+</div>
+<div id="multi-terminal-devices" class="section level2">
+<h2>Multi-terminal devices</h2>
+<p>Transistors and op-amps also export their terminals as variables
+(<code>gBase_*</code>, <code>gColl_*</code>, <code>gEmit_*</code>), so
+wiring attaches precisely:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">rpic_svg</span>(<span class="st">&#39;</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="st">npn((0,0))</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="st">line left 0.3 from (gBase_x, gBase_y); &quot;B&quot; rjust at last line.end - (0.04, 0)</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="st">line up 0.25 from (gColl_x, gColl_y); &quot;C&quot; above at last line.end</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="st">line down 0.25 from (gEmit_x, gEmit_y); &quot;E&quot; below at last line.end</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="st">&#39;</span>, <span class="at">circuits =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="float">
+<img role="img" aria-label="an NPN transistor symbol with wires and labels on the base, collector and emitter" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjguNzQ2NjY3IiBoZWlnaHQ9IjE3MS44OTMzMzMiIHZpZXdCb3g9IjAgMCAxMjguNzQ2NjY3IDE3MS44OTMzMzMiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0LjY2NjY2NyIgZmlsbD0ibm9uZSI+CjxnIGlkPSJzMCI+CjxjaXJjbGUgY3g9IjkwLjEzMzMzMyIgY3k9Ijg0Ljg4IiByPSIyOC44IiBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjEuMDY2NjY3Ii8+CjwvZz4KPGcgaWQ9InMxIj4KPGxpbmUgeDE9Ijg0LjM3MzMzMyIgeTE9IjEwMC4yNCIgeDI9Ijg0LjM3MzMzMyIgeTI9IjY5LjUyIiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjEuMDY2NjY3Ii8+CjwvZz4KPGcgaWQ9InMyIj4KPGxpbmUgeDE9IjQ0LjA1MzMzMyIgeTE9Ijg0Ljg4IiB4Mj0iODQuMzczMzMzIiB5Mj0iODQuODgiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMS4wNjY2NjciLz4KPC9nPgo8ZyBpZD0iczMiPgo8bGluZSB4MT0iODQuMzczMzMzIiB5MT0iNzguMTYiIHgyPSIxMDUuNDkzMzMzIiB5Mj0iNjMuNzYiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMS4wNjY2NjciLz4KPC9nPgo8ZyBpZD0iczQiPgo8bGluZSB4MT0iMTA1LjQ5MzMzMyIgeTE9IjYzLjc2IiB4Mj0iMTA1LjQ5MzMzMyIgeTI9IjQ0LjU2IiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjEuMDY2NjY3Ii8+CjwvZz4KPGcgaWQ9InM1Ij4KPGxpbmUgeDE9Ijg0LjM3MzMzMyIgeTE9IjkxLjYiIHgyPSIxMDMuNjc2NDY4IiB5Mj0iMTA0Ljc2MTIyOCIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIxLjA2NjY2NyIvPgo8cG9seWdvbiBzdHJva2Utd2lkdGg9IjAiIHBvaW50cz0iOTguOTEzNTU5LDk4LjYwOTAyMSAxMDUuNDkzMzMzLDEwNiA5Ni4yMDk1NDIsMTAyLjU3NDkxMiIgZmlsbD0iYmxhY2siLz4KPC9nPgo8ZyBpZD0iczYiPgo8bGluZSB4MT0iMTA1LjQ5MzMzMyIgeTE9IjEwNiIgeDI9IjEwNS40OTMzMzMiIHkyPSIxMjUuMiIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIxLjA2NjY2NyIvPgo8L2c+CjxnIGlkPSJzNyI+CjxsaW5lIHgxPSI0NC4wNTMzMzMiIHkxPSI4NC44OCIgeDI9IjE1LjI1MzMzMyIgeTI9Ijg0Ljg4IiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjEuMDY2NjY3Ii8+CjwvZz4KPGcgaWQ9InM4Ij4KPHRleHQgZm9udC1zaXplPSIxMXB0IiBzdHJva2Utd2lkdGg9IjAuMjY2NjY3IiBmaWxsPSJibGFjayIgeD0iOC43NDY2NjciIHk9Ijg5LjcyIiB0ZXh0LWFuY2hvcj0iZW5kIj5CPC90ZXh0Pgo8L2c+CjxnIGlkPSJzOSI+CjxsaW5lIHgxPSIxMDUuNDkzMzMzIiB5MT0iNDQuNTYiIHgyPSIxMDUuNDkzMzMzIiB5Mj0iMjAuNTYiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMS4wNjY2NjciLz4KPC9nPgo8ZyBpZD0iczEwIj4KPHRleHQgZm9udC1zaXplPSIxMXB0IiBzdHJva2Utd2lkdGg9IjAuMjY2NjY3IiBmaWxsPSJibGFjayIgeD0iMTA1LjQ5MzMzMyIgeT0iMTcuODkzMzMzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5DPC90ZXh0Pgo8L2c+CjxnIGlkPSJzMTEiPgo8bGluZSB4MT0iMTA1LjQ5MzMzMyIgeTE9IjEyNS4yIiB4Mj0iMTA1LjQ5MzMzMyIgeTI9IjE0OS4yIiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjEuMDY2NjY3Ii8+CjwvZz4KPGcgaWQ9InMxMiI+Cjx0ZXh0IGZvbnQtc2l6ZT0iMTFwdCIgc3Ryb2tlLXdpZHRoPSIwLjI2NjY2NyIgZmlsbD0iYmxhY2siIHg9IjEwNS40OTMzMzMiIHk9IjE2MS41NDY2NjciIHRleHQtYW5jaG9yPSJtaWRkbGUiPkU8L3RleHQ+CjwvZz4KPC9zdmc+Cgo=" alt="an NPN transistor symbol with wires and labels on the base, collector and emitter" />
+<div class="figcaption">an NPN transistor symbol with wires and labels
+on the base, collector and emitter</div>
+</div>
+</div>
+<div id="in-r-markdown-quarto" class="section level2">
+<h2>In R Markdown / Quarto</h2>
+<p>Register the knitr engine once and write pic directly in chunks, with
+<code>circuits</code> (and <code>texlabels</code>, <code>scale</code>)
+as chunk options:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="in">```{r, eval = FALSE}</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="in">rpic::rpic_register_knitr()</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="in">```{rpic, circuits=TRUE, scale=2}</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="in">A:(0,0); B:(2,0)</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="in">resistor(A,B)</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<p>The full element list lives in the <a href="https://github.com/milkway/rpic-lang/blob/main/crates/core/src/std/circuits.pic">library
+source</a>; a gallery of 48 circuit_macros figures rendered by the same
+engine is in the <a href="https://github.com/milkway/rpic-lang/tree/main/examples/figuras">engine
+repository</a>.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
