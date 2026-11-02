@@ -1,6 +1,6 @@
 Package: rpic
 Title: The 'pic' Graphics Language Rendered to SVG, PNG and PDF
-Version: 0.11.3
+Version: 0.12.1
 Authors@R: c(
     person("André", "Leite", email = "leite@castlab.org", role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0002-4718-9766")),
@@ -17,7 +17,7 @@ Description: Renders diagrams written in the 'pic' picture-drawing language
 License: BSD_2_clause + file LICENSE
 Encoding: UTF-8
 SystemRequirements: Cargo (Rust's package manager), rustc (>= 1.88.0)
-Suggests: knitr, rmarkdown
+Suggests: jsonlite, knitr, rmarkdown
 VignetteBuilder: knitr
 URL: https://milkway.github.io/rpic-r/,
         https://github.com/milkway/rpic-r,
@@ -27,11 +27,11 @@ Config/rextendr/version: 0.5.0
 Depends: R (>= 4.2)
 Config/roxygen2/version: 8.0.0
 NeedsCompilation: yes
-Packaged: 2026-09-29 14:30:53 UTC; leite
+Packaged: 2026-11-02 16:53:31 UTC; leite
 Author: André Leite [aut, cre, cph] (ORCID:
     <https://orcid.org/0000-0002-4718-9766>),
   The authors of the dependency Rust crates [cph] (see inst/AUTHORS for
     details)
 Maintainer: André Leite <leite@castlab.org>
 Repository: CRAN
-Date/Publication: 2026-10-01 08:20:02 UTC
+Date/Publication: 2026-11-02 20:30:02 UTC
